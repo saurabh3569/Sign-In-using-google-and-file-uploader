@@ -34,9 +34,15 @@ router.get('/files', (req, res) => {
     if (err) {
       return res.status(500).send({ message: 'Unable to read files' });
     }
-    return res.status(200).send(files);
+    let newFiles = []
+    files.map((data) => {
+      if (data.startsWith(req.user.id)) newFiles.push(data)
+    })
+
+    return res.status(200).send(newFiles);
   });
 });
+
 
 // Route for downloading a file
 router.get('/download/:filename', (req, res) => {
